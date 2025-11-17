@@ -1,0 +1,75 @@
+/* Simplified base stylesheet for AlgoArena Blog
+   - Uses Tailwind's base/components/utilities layers
+   - Defines a small set of CSS custom properties for light/dark
+   - Avoids experimental @plugin/@custom-variant directives to prevent build errors
+*/
+
+@import "tailwindcss/preflight";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root{
+  --radius: 0.5rem;
+  --bg: #ffffff;
+  --fg: #0f172a; /* slate-900 */
+  --muted: #64748b; /* slate-500 */
+  --primary: #6366f1; /* indigo-500 */
+  --card: #ffffff;
+  --border: #e6eef8;
+}
+
+.dark {
+  --bg: #0b1220; /* dark background */
+  --fg: #e6eef8;
+  --muted: #94a3b8;
+  --primary: #8b5cf6;
+  --card: #0f1724;
+  --border: #1f2937;
+}
+
+/* Basic page reset and typography */
+html,body,#root{height:100%;}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color:var(--bg);
+  color:var(--fg);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.6;
+}
+
+a{color:var(--primary);font-weight:500;text-decoration:none}
+a:hover{text-decoration:underline}
+
+h1,h2,h3,h4{color:var(--fg);margin:0 0 .5rem}
+
+button{
+  font:inherit;
+  background:transparent;
+  border-radius:calc(var(--radius) - 2px);
+  padding:.5rem .75rem;
+  border:1px solid transparent;
+  cursor:pointer;
+}
+
+/* Card utility used by PostCard */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:1rem;
+  border-radius:var(--radius);
+}
+
+/* Small helpers used by components in this scaffold */
+.muted{color:var(--muted)}
+.prose{max-width:65ch}
+
+@media (prefers-color-scheme:dark){
+  :root:not(.dark){
+    /* if user prefers dark and .dark not set, adjust colors */
+    --bg:#0b1220;--fg:#e6eef8;--muted:#94a3b8;--primary:#8b5cf6;--card:#0f1724;--border:#1f2937;
+  }
+}
+

@@ -1,128 +1,67 @@
-import { useState } from 'react'
-import { User, MessageSquare, Reply, ThumbsUp } from 'lucide-react'
+import { useEffect, useRef } from "react";
+import { MessageSquare } from "lucide-react";
 
-const initialComments = [
-  {
-    id: 1,
-    author: "Shivam Ray",
-    date: "Oct 16, 2025",
-    content: "This is a great explanation of Server Components! I've been struggling to understand the difference between RSC and SSR. The bundle size benefit is huge.",
-    likes: 12,
-    replies: [
-      {
-        id: 2,
-        author: "Dinehs",
-        date: "Oct 16, 2025",
-        content: "Glad you found it helpful, Alex! The zero bundle size for server-only dependencies is indeed a game changer.",
-        likes: 4,
-        replies: []
+export default function CommentsSection({ blogId }) {
+  const containerRef = useRef(null);
+
+  // Insert giscus script with mapping='specific' and term `blog-{id}` so each blog has its own discussion
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || !blogId) return;
+
+    // Clean previous
+    container.innerHTML = "";
+
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.async = true;
+    script.crossOrigin = "anonymous";
+    script.setAttribute("data-repo", "SHRbharat/HelloWorld");
+    script.setAttribute("data-repo-id", "R_kgDOQXhCBw");
+    script.setAttribute("data-category", "General");
+    script.setAttribute("data-category-id", "DIC_kwDOQXhCB84CyAvC");
+    script.setAttribute("data-mapping", "specific");
+    script.setAttribute("data-term", `blog-${blogId}`);
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+
+    const isDarkMode = document.documentElement.classList.contains("dark");
+    script.setAttribute("data-theme", isDarkMode ? "dark" : "light");
+
+    script.setAttribute("data-lang", "en");
+    script.setAttribute("data-loading", "lazy");
+
+    container.appendChild(script);
+
+    // Observe theme changes on <html class='dark'> using a MutationObserver and postMessage to giscus iframe to update theme
+    const observer = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains("dark");
+      const iframe = container.querySelector("iframe.giscus-frame");
+      if (iframe?.contentWindow) {
+        iframe.contentWindow.postMessage(
+          { giscus: { setConfig: { theme: isDark ? "dark" : "light" } } },
+          "https://giscus.app"
+        );
       }
-    ]
-  },
-  {
-    id: 3,
-    author: "Aman",
-    date: "Oct 17, 2025",
-    content: "How does this affect authentication? Do we need to change how we handle sessions?",
-    likes: 8,
-    replies: []
-  }
-]
-
-export default function CommentsSection() {
-  const [comments, setComments] = useState(initialComments)
-  const [newComment, setNewComment] = useState('')
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!newComment.trim()) return
-
-    const comment = {
-      id: Date.now(),
-      author: "Guest User",
-      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-      content: newComment,
-      likes: 0,
-      replies: []
-    }
-
-    setComments([comment, ...comments])
-    setNewComment('')
-  }
-
-  const CommentItem = ({ comment, isReply = false }) => (
-    <div className={`flex gap-4 ${isReply ? 'ml-12 mt-4' : 'mt-6'}`}>
-      <div className="flex-shrink-0">
-        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-          <User size={20} />
-        </div>
-      </div>
-      <div className="flex-1">
-        <div className="bg-card border border-border rounded-lg p-4">
-          <div className="flex items-center justify-between mb-2">
-            <h4 className="font-semibold text-sm">{comment.author}</h4>
-            <span className="text-xs text-muted-foreground">{comment.date}</span>
-          </div>
-          <p className="text-sm text-muted-foreground mb-3">{comment.content}</p>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <button className="flex items-center gap-1 hover:text-primary transition-colors">
-              <ThumbsUp size={14} />
-              <span>{comment.likes}</span>
-            </button>
-            <button className="flex items-center gap-1 hover:text-primary transition-colors">
-              <Reply size={14} />
-              <span>Reply</span>
-            </button>
-          </div>
-        </div>
-        {comment.replies && comment.replies.length > 0 && (
-          <div className="space-y-4">
-            {comment.replies.map(reply => (
-              <CommentItem key={reply.id} comment={reply} isReply={true} />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  )
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    
+    return () => {
+      observer.disconnect();
+      container.innerHTML = "";
+    };
+  }, [blogId]);
 
   return (
     <div className="py-8 border-t border-border">
-      <div className="flex items-center gap-2 mb-8">
-        <MessageSquare className="text-primary" size={24} />
-        <h2 className="text-2xl font-bold">Comments ({comments.length})</h2>
+      <div className="flex items-center gap-2 mb-4">
+        <MessageSquare className="text-primary" size={20} />
+        <h2 className="text-2xl font-bold">Discussion</h2>
       </div>
 
-      {/* Comment Form */}
-      <form onSubmit={handleSubmit} className="mb-10">
-        <div className="mb-4">
-          <label htmlFor="comment" className="sr-only">Add a comment</label>
-          <textarea
-            id="comment"
-            rows={4}
-            className="w-full p-4 rounded-xl bg-card border border-border focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none"
-            placeholder="Share your thoughts..."
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-        </div>
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            disabled={!newComment.trim()}
-            className="px-6 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Post Comment
-          </button>
-        </div>
-      </form>
-
-      {/* Comments List */}
-      <div className="space-y-6">
-        {comments.map(comment => (
-          <CommentItem key={comment.id} comment={comment} />
-        ))}
-      </div>
+      <div ref={containerRef} />
     </div>
-  )
+  );
 }

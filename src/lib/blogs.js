@@ -10,7 +10,8 @@ const blogs = [
     coverImage:
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80",
     file: "/blogs/react-19-future-of-component-development.md",
-    tags: ["react", "web", "frameworks"]
+    tags: ["react", "web", "frameworks"],
+    readTime: "8 min"
   },
   {
     id: 2,
@@ -23,7 +24,8 @@ const blogs = [
     coverImage:
       "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80",
     file: "/blogs/mastering-typescript-generics.md",
-    tags: ["typescript", "types", "javascript"]
+    tags: ["typescript", "types", "javascript"],
+    readTime: "8 min"
   },
   {
     id: 3,
@@ -36,7 +38,8 @@ const blogs = [
     coverImage:
       "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=1200&q=80",
     file: "/blogs/web-performance-optimization-guide.md",
-    tags: ["performance", "optimization", "best-practices"]
+    tags: ["performance", "optimization", "best-practices"],
+    readTime: "4 min"
   },
   {
     id: 4,
@@ -49,7 +52,8 @@ const blogs = [
     coverImage:
       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80",
     file: "/blogs/building-scalable-nodejs-apis.md",
-    tags: ["nodejs", "api", "backend"]
+    tags: ["nodejs", "api", "backend"],
+    readTime: "8 min"
   },
   {
     id: 5,
@@ -62,7 +66,8 @@ const blogs = [
     coverImage:
       "https://images.unsplash.com/photo-1526378726006-9f3b6c5c8f1f?w=1200&q=80",
     file: "/blogs/css-grid-vs-flexbox.md",
-    tags: ["css", "layout", "design"]
+    tags: ["css", "layout", "design"],
+    readTime: "8 min"
   },
   {
     id: 6,
@@ -75,7 +80,8 @@ const blogs = [
     coverImage:
       "https://images.unsplash.com/photo-1547658719-da2b51169166?w=1200&q=80",
     file: "/blogs/getting-started-with-graphql.md",
-    tags: ["graphql", "api", "web"]
+    tags: ["graphql", "api", "web"],
+    readTime: "8 min"
   },
   {
     id: 7,
@@ -88,7 +94,8 @@ const blogs = [
     coverImage:
       "https://images.unsplash.com/photo-1581276879432-15a80b78df3f?w=1200&q=80",
     file: "/blogs/nextjs-app-router-best-practices.md",
-    tags: ["nextjs", "react", "routing"]
+    tags: ["nextjs", "react", "routing"],
+    readTime: "8 min"
   },
   {
     id: 8,
@@ -101,7 +108,8 @@ const blogs = [
     coverImage:
       "https://images.unsplash.com/photo-1516321547307-4aa9a4e7b2b5?w=1200&q=80",
     file: "/blogs/state-management-2024.md",
-    tags: ["state", "redux", "zustand"]
+    tags: ["state", "redux", "zustand"],
+    readTime: "8 min"
   },
   {
     id: 9,
@@ -114,7 +122,8 @@ const blogs = [
     coverImage:
       "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=80",
     file: "/blogs/introduction-to-docker.md",
-    tags: ["docker", "devops", "containers"]
+    tags: ["docker", "devops", "containers"],
+    readTime: "8 min"
   },
 ];
 

@@ -10,7 +10,6 @@ export default function SuggestedBlogs() {
       date: "2024-11-12",
       category: "TypeScript",
       image: "/typescript-code.png",
-      href: "mastering-typescript-generics",
     },
     {
       id: 2,
@@ -49,7 +48,7 @@ export default function SuggestedBlogs() {
         {suggestedBlogs.map((blog) => (
           <Link
             key={blog.id}
-            to={`/blogs/${blog.href}`} 
+            to={`/blogs/${blog.id}`} 
             className="group flex flex-col sm:flex-row gap-4 bg-card p-3 rounded-xl border border-border hover:border-cyan-500/50 transition-all hover:shadow-md hover:bg-accent/5"
           >
             {/* Image Container */}

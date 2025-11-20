@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { ToastContainer } from "react-toastify";
@@ -12,6 +11,8 @@ import Blogs from "./pages/Blogs";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
 
+import "./App.css";
+
 export default function App() {
   return (
     <ThemeProvider>
@@ -22,7 +23,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/contact" element={<Contact />} />
-          {/* <Route path="/blogs/:href" element={<Blog />} /> */}
+          <Route path="/blogs/:id" element={<Blog />} />
           <Route path="/blog" element={<Blog />} />
         </Routes>
 

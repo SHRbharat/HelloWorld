@@ -1,5 +1,10 @@
 @import "tailwindcss";
 @import 'tw-animate-css';
+@import "github-markdown-css/github-markdown.css";
+/*syntax highlighting*/
+@import "prismjs/themes/prism.css"; /* for light mode */
+@import "prismjs/themes/prism-tomorrow.css"; /* for dark mode */
+
 
 
 @custom-variant dark (&:is(.dark *));

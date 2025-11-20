@@ -2,50 +2,61 @@ import SuggestedBlogs from "./../components/SuggestedBlogs";
 import BlogPostContent from "./../components/BlogPostContent";
 import CommentsSection from "./../components/CommentsSection";
 
-const post = {
-  title: "The Future of React: Server Components and Beyond",
-  date: "October 15, 2023",
-  author: "Shivam Ray",
-  readTime: "5 min read",
-  tags: ["React", "Web Development", "Next.js"],
-  coverImage: "/react-development-concept.png",
-  content: `
-      ## Introduction
-      React Server Components (RSC) represent a paradigm shift in how we build React applications. By moving component rendering to the server, we can significantly reduce the amount of JavaScript sent to the client.
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import blogs from "../lib/blogs";
 
-      ## What are Server Components?
-      Server Components allow developers to write UI that can be rendered on the server. Unlike Server-Side Rendering (SSR), which returns HTML that must be hydrated, RSCs stream a special data format that React uses to update the DOM without losing client state.
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
-      ### Key Benefits
-      1. **Zero Bundle Size**: Dependencies used in Server Components aren't included in the client bundle.
-      2. **Direct Backend Access**: Access your database or filesystem directly from your components.
-      3. **Automatic Code Splitting**: Client components imported by Server Components are automatically code-split.
-
-      ## How it Works
-      When a request comes in, the server renders the component tree. It serializes the result into a JSON-like format.
-
-      ### The Protocol
-      The wire format is optimized for streaming and can be processed by React on the client as it arrives.
-
-      ## Conclusion
-      Server Components are not just a performance optimization; they are a new way to think about building user interfaces.
-    `,
-};
+import rehypePrism from "rehype-prism-plus";
+// import "prismjs/components/prism-javascript";
+// import "prismjs/components/prism-jsx";
+// import "prismjs/components/prism-typescript";
+// import "prismjs/components/prism-tsx";
+// import "prismjs/components/prism-json";
+// import "prismjs/components/prism-markdown";
+// import "prismjs/components/prism-css";
+// import "prismjs/components/prism-bash";
 
 export default function Blog() {
+  const { id } = useParams(); // blog id from route
+  const blogId = isNaN(Number(id)) ? id : Number(id);
+  const blogMeta = blogs.find((b) => b.id === blogId || String(b.id) === String(id));
+
+  const [content, setContent] = useState("");
+
+  useEffect(() => {
+    if (blogMeta && blogMeta.file) {
+      fetch(blogMeta.file)
+        .then((res) => res.text())
+        .then((text) => setContent(text))
+        .catch(() => setContent(""));
+    }
+  }, [blogMeta]);
+
+  if (!blogMeta) return <p>Blog not found</p>;
+
   return (
-    <>
-      <main className="flex-grow pt-8 pb-16">
-        <BlogPostContent post={post} />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-8">
-              <CommentsSection />
-              <SuggestedBlogs />
-            </div>
+    <main className="flex-grow pt-8 pb-16">
+      <BlogPostContent post={{ ...blogMeta, content }}>
+        <ReactMarkdown
+          children={content}
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypePrism]}
+          className="markdown-body prose prose-lg dark:prose-invert max-w-none"
+        />
+      </BlogPostContent>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-8">
+            <CommentsSection blogId={blogMeta.id} />
+            <SuggestedBlogs />
           </div>
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 }
+
+

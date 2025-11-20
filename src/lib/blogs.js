@@ -7,7 +7,10 @@ const blogs = [
     date: "2024-11-15",
     author: "Shivam Ray",
     category: "React",
-    image: "/react-development-concept.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80",
+    file: "/blogs/react-19-future-of-component-development.md",
+    tags: ["react", "web", "frameworks"]
   },
   {
     id: 2,
@@ -17,7 +20,10 @@ const blogs = [
     date: "2024-11-12",
     author: "Shivam Ray",
     category: "TypeScript",
-    image: "/typescript-code.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80",
+    file: "/blogs/mastering-typescript-generics.md",
+    tags: ["typescript", "types", "javascript"]
   },
   {
     id: 3,
@@ -27,7 +33,10 @@ const blogs = [
     date: "2024-11-08",
     author: "Shivam Ray",
     category: "Performance",
-    image: "/web-performance-concept.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=1200&q=80",
+    file: "/blogs/web-performance-optimization-guide.md",
+    tags: ["performance", "optimization", "best-practices"]
   },
   {
     id: 4,
@@ -37,7 +46,10 @@ const blogs = [
     date: "2024-11-05",
     author: "Shivam Ray",
     category: "Backend",
-    image: "/nodejs-backend.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80",
+    file: "/blogs/building-scalable-nodejs-apis.md",
+    tags: ["nodejs", "api", "backend"]
   },
   {
     id: 5,
@@ -47,7 +59,10 @@ const blogs = [
     date: "2024-10-30",
     author: "Shivam Ray",
     category: "CSS",
-    image: "/css-layout-diagram.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1526378726006-9f3b6c5c8f1f?w=1200&q=80",
+    file: "/blogs/css-grid-vs-flexbox.md",
+    tags: ["css", "layout", "design"]
   },
   {
     id: 6,
@@ -57,7 +72,10 @@ const blogs = [
     date: "2024-10-25",
     author: "Shivam Ray",
     category: "GraphQL",
-    image: "/graphql-api-concept.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1547658719-da2b51169166?w=1200&q=80",
+    file: "/blogs/getting-started-with-graphql.md",
+    tags: ["graphql", "api", "web"]
   },
   {
     id: 7,
@@ -67,7 +85,10 @@ const blogs = [
     date: "2024-10-20",
     author: "Shivam Ray",
     category: "Next.js",
-    image: "/nextjs-logo.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1581276879432-15a80b78df3f?w=1200&q=80",
+    file: "/blogs/nextjs-app-router-best-practices.md",
+    tags: ["nextjs", "react", "routing"]
   },
   {
     id: 8,
@@ -77,7 +98,10 @@ const blogs = [
     date: "2024-10-15",
     author: "Shivam Ray",
     category: "React",
-    image: "/state-management-concept.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1516321547307-4aa9a4e7b2b5?w=1200&q=80",
+    file: "/blogs/state-management-2024.md",
+    tags: ["state", "redux", "zustand"]
   },
   {
     id: 9,
@@ -87,7 +111,10 @@ const blogs = [
     date: "2024-10-10",
     author: "Shivam Ray",
     category: "DevOps",
-    image: "/docker-concept.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=80",
+    file: "/blogs/introduction-to-docker.md",
+    tags: ["docker", "devops", "containers"]
   },
 ];
 

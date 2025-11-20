@@ -1,0 +1,11 @@
+/* overriding default github-markdown-css styles to match app theme */
+.markdown-body {
+    background-color: transparent !important;
+    color: inherit !important;
+}
+
+.dark .markdown-body {
+    background-color: transparent !important;
+    color: inherit !important;
+}
+

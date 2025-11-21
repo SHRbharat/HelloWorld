@@ -1,9 +1,37 @@
 import { Github, Linkedin, Globe2, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { hitVisitor, getVisitor } from "../../api/counterApi";
 import logoDark from "./../assets/logo_dark.png"; 
 import logoLight from "./../assets/logo_light.png";
 
 export default function Footer() {
+  const [visitors, setVisitors] = useState(null);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function fetchVisitors() {
+      try {
+        const visitedKey = "helloworld_site_visited";
+        const already = localStorage.getItem(visitedKey);
+        if (!already) {
+          const res = await hitVisitor();
+          if (mounted) setVisitors(res?.value ?? 0);
+          localStorage.setItem(visitedKey, Date.now());
+        } else {
+          const res = await getVisitor();
+          if (mounted) setVisitors(res?.value ?? 0);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    fetchVisitors();
+    return () => (mounted = false);
+  }, []);
+
   return (
     <footer className="bg-card border-t border-border mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -59,6 +87,9 @@ export default function Footer() {
                 <Mail size={18} />
               </a>
             </div>
+            <p className="text-sm text-muted-foreground mt-4">
+              Visitors: <span className="font-semibold">{visitors !== null ? new Intl.NumberFormat().format(visitors) : 'No visitors'}</span>
+            </p>
           </div>
 
           {/* Resources */}
@@ -99,23 +130,25 @@ export default function Footer() {
             <h4 className="font-semibold mb-4">Services</h4>
             <ul className="space-y-2 text-sm">
               <li className="text-muted-foreground">Software Development</li>
-              <li className="text-muted-foreground">Web Development</li>
-              <li className="text-muted-foreground">Data Analysis & ML</li>
+              <li className="text-muted-foreground">Automation and Analytics</li>
+              <li className="text-muted-foreground">Graphic Designing</li>
               <li className="text-muted-foreground">UI/UX</li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-border pt-8">
+        <div className="border-t border-border pt-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground text-center md:text-left">
               © 2025 algoarena.tech. All rights reserved.
             </p>
-            <p className="text-sm text-muted-foreground">
-              Built with ❤️ and {"</>"} by{" "}
-              <span className="font-semibold">Shivam Ray</span>
-            </p>
+            <div className="flex items-center gap-6">
+              <p className="text-sm text-muted-foreground">
+                Built with ❤️ and {"</>"} by {" "}
+                <span className="font-semibold">Shivam Ray</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>

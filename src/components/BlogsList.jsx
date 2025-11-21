@@ -12,9 +12,9 @@ export default function BlogsList({
     <>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {blogs.map((blog) => (
-          <Link key={blog.id} to={`/blogs/${blog.id}`}>
+          <Link key={blog.id} to={`/blogs/${blog.id}`} className="block h-full">
           <article
-            className="group flex flex-col bg-card rounded-2xl overflow-hidden border border-border hover:border-cyan-500/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+            className="group h-full flex flex-col bg-card rounded-2xl overflow-hidden border border-border hover:border-cyan-500/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
           >
             <div className="relative h-52 overflow-hidden">
               <img

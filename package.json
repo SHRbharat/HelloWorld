@@ -15,6 +15,7 @@
     "@tailwindcss/vite": "^4.1.17",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
+    "counterapi": "^2.1.2",
     "emailjs-com": "^3.2.0",
     "fuse.js": "^7.1.0",
     "github-markdown-css": "^5.8.1",

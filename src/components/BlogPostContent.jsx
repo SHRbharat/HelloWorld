@@ -68,7 +68,7 @@ export default function BlogPostContent({ post }) {
 
       {/* Engagement Section */}
       <div className="flex justify-center mb-8">
-        <EngagementSection />
+        <EngagementSection blogId={post.id} />
       </div>
 
       {/* Cover Image */}

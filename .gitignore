@@ -68,3 +68,5 @@ public/.cache/
 
 # Optional: lockfiles for other package managers (uncomment if you use them and want to ignore)
 # pnpm-lock.yaml
+
+.vercel

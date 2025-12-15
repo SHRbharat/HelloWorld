@@ -1,8 +1,8 @@
 import { Github, Linkedin, Globe2, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { hitVisitor, getVisitor } from "../../api/counterApi";
-import logoDark from "./../assets/logo_dark.png"; 
+import { hitVisitor, getVisitor } from "./../lib/counterApi";
+import logoDark from "./../assets/logo_dark.png";
 import logoLight from "./../assets/logo_light.png";
 
 export default function Footer() {
@@ -12,24 +12,57 @@ export default function Footer() {
     let mounted = true;
 
     async function fetchVisitors() {
+      const visitedKey = "helloworld_site_visited";
       try {
-        const visitedKey = "helloworld_site_visited";
+        console.log("[fetchVisitors] started");
+
         const already = localStorage.getItem(visitedKey);
+
+        console.log("[fetchVisitors] localStorage check", {
+          key: visitedKey,
+          exists: Boolean(already),
+          value: already,
+        });
+
         if (!already) {
+          console.log("[fetchVisitors] first visit → incrementing counter");
+
           const res = await hitVisitor();
-          if (mounted) setVisitors(res?.value ?? 0);
-          localStorage.setItem(visitedKey, Date.now());
+
+          console.log("[fetchVisitors] hitVisitor response", res);
+
+          if (mounted) {
+            setVisitors(res);
+          }
+
+          localStorage.setItem(visitedKey, String(Date.now()));
+
+          console.log("[fetchVisitors] localStorage updated", {
+            key: visitedKey,
+            timestamp: Date.now(),
+          });
         } else {
+          console.log("[fetchVisitors] repeat visit → fetching counter");
+
           const res = await getVisitor();
-          if (mounted) setVisitors(res?.value ?? 0);
+
+          console.log("[fetchVisitors] getVisitor response", res);
+
+          if (mounted) {
+            setVisitors(res);
+          }
         }
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        console.error("[fetchVisitors] error", error);
       }
     }
 
     fetchVisitors();
-    return () => (mounted = false);
+
+    return () => {
+      mounted = false;
+      console.log("[fetchVisitors] cleanup → component unmounted");
+    };
   }, []);
 
   return (
@@ -88,7 +121,12 @@ export default function Footer() {
               </a>
             </div>
             <p className="text-sm text-muted-foreground mt-4">
-              Visitors: <span className="font-semibold">{visitors !== null ? new Intl.NumberFormat().format(visitors) : 'No visitors'}</span>
+              Visitors:{" "}
+              <span className="font-semibold">
+                {visitors !== null
+                  ? new Intl.NumberFormat().format(visitors)
+                  : "No visitors"}
+              </span>
             </p>
           </div>
 
@@ -130,9 +168,15 @@ export default function Footer() {
             <h4 className="font-semibold mb-4">Services</h4>
             <ul className="space-y-2 text-sm">
               <li className="text-muted-foreground">Software Development</li>
-              <li className="text-muted-foreground">Automation and Analytics</li>
-              <li className="text-muted-foreground">Graphic Designing</li>
-              <li className="text-muted-foreground">UI/UX</li>
+              <li className="text-muted-foreground">
+                Automation and Analytics
+              </li>
+              <li className="text-muted-foreground">
+                UI/UX & Graphic Designing
+              </li>
+              <li className="text-muted-foreground">
+                Search Engine Optimization
+              </li>
             </ul>
           </div>
         </div>
@@ -145,7 +189,7 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-6">
               <p className="text-sm text-muted-foreground">
-                Built with ❤️ and {"</>"} by {" "}
+                Built with ❤️ and {"</>"} by{" "}
                 <span className="font-semibold">Shivam Ray</span>
               </p>
             </div>
@@ -155,5 +199,3 @@ export default function Footer() {
     </footer>
   );
 }
-
-

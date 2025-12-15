@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Send } from "lucide-react";
 import { toast } from "react-toastify";
+import emailjs from "@emailjs/browser";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -19,23 +20,42 @@ export default function ContactForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICEID,
+        import.meta.env.VITE_EMAILJS_TEMPLATEID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLICKEY
+      );
 
-    console.log("[v0] Form submitted:", formData);
+      toast.success("Thank you for reaching out! I'll get back to you soon");
 
-    //Use toast instead of alert
-    toast.success("Thank you for reaching out! We will get back to you soon.");
-
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    setIsSubmitting(false);
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("[EmailJS error]", error);
+      toast.error("Failed to send message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Name Field */}
+      {/* Name */}
       <div className="space-y-2">
         <label htmlFor="name" className="block text-sm font-medium">
           Name
@@ -47,12 +67,12 @@ export default function ContactForm() {
           value={formData.name}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
+          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent"
           placeholder="Your name"
         />
       </div>
 
-      {/* Email Field */}
+      {/* Email */}
       <div className="space-y-2">
         <label htmlFor="email" className="block text-sm font-medium">
           Email
@@ -64,12 +84,12 @@ export default function ContactForm() {
           value={formData.email}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
+          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent"
           placeholder="your.email@example.com"
         />
       </div>
 
-      {/* Subject Field */}
+      {/* Subject */}
       <div className="space-y-2">
         <label htmlFor="subject" className="block text-sm font-medium">
           Subject
@@ -81,12 +101,12 @@ export default function ContactForm() {
           value={formData.subject}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
+          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent"
           placeholder="What's this about?"
         />
       </div>
 
-      {/* Message Field */}
+      {/* Message */}
       <div className="space-y-2">
         <label htmlFor="message" className="block text-sm font-medium">
           Message
@@ -94,20 +114,20 @@ export default function ContactForm() {
         <textarea
           id="message"
           name="message"
+          rows={6}
           value={formData.message}
           onChange={handleChange}
           required
-          rows={6}
-          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200 resize-none"
+          className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent resize-none"
           placeholder="Tell me more about your inquiry..."
         />
       </div>
 
-      {/* Submit Button */}
+      {/* Submit */}
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+        className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2 disabled:opacity-50"
       >
         {isSubmitting ? (
           <>

@@ -189,7 +189,7 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-6">
               <p className="text-sm text-muted-foreground">
-                Built with ❤️ and {"</>"} by{" "}
+                Built with ❤️ by{" "}
                 <span className="font-semibold">Shivam Ray</span>
               </p>
             </div>

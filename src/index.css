@@ -1,10 +1,6 @@
 @import "tailwindcss";
 @import 'tw-animate-css';
 @import "github-markdown-css/github-markdown.css";
-/*syntax highlighting*/
-@import "prismjs/themes/prism.css"; /* for light mode */
-@import "prismjs/themes/prism-tomorrow.css"; /* for dark mode */
-
 
 
 @custom-variant dark (&:is(.dark *));
@@ -155,30 +151,53 @@ html {
   animation: float 3s ease-in-out infinite;
 }
 
-/* Scrollbar styling for popover content */
-.popover-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent) var(--popover);
-}
-
-.popover-scroll::-webkit-scrollbar {
+/* Scrollbar styling */
+::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
-.popover-scroll::-webkit-scrollbar-track {
-  background: var(--popover);
+::-webkit-scrollbar-track {
+  background: var(--background);
   border-radius: var(--radius);
 }
 
-.popover-scroll::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
+  background-color: var(--accent); 
+  border-radius: var(--radius);
+  border: 2px solid var(--background); 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent-foreground); 
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--background);
+}
+
+/* optional */
+.scrollbar-theme {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--background);
+}
+
+.scrollbar-theme::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+.scrollbar-theme::-webkit-scrollbar-thumb {
   background-color: var(--accent);
+  border: 2px solid var(--background);
   border-radius: var(--radius);
-  border: 2px solid var(--popover);
 }
 
-.popover-scroll::-webkit-scrollbar-thumb:hover {
+.scrollbar-theme::-webkit-scrollbar-thumb:hover {
   background-color: var(--accent-foreground);
 }
+
 
 /* Multi-line truncation helpers (fallback without Tailwind plugin) */
 .line-clamp-2 {

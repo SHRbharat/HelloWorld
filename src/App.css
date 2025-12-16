@@ -9,3 +9,11 @@
     color: inherit !important;
 }
 
+.prose pre{
+    margin-bottom: 0 !important;
+}
+
+/* override default paddding of rehype-highlight */
+pre .hljs{
+    padding: 0.5rem 0 !important;
+}

@@ -17,11 +17,11 @@ example use cases.
 
 ------------------------------------------------------------------------
 
-## 📌 What's New in React 19?
+## What's New in React 19?
 
 ### 1. Improved Server Components
 
-Server Components reduce client bundle size by keeping heavy logic on
+Server Components `int x = 10` reduce client bundle size by keeping heavy logic on
 the server.  
 React 19 introduces:
 
@@ -97,7 +97,7 @@ React 19 includes new hooks and improvements such as:
 
 ------------------------------------------------------------------------
 
-## 🏗️ Feature Highlights with Images
+## Feature Highlights with Images
 
 ### Server Component Flow
 
@@ -120,9 +120,9 @@ Optimization](https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?w=120
 
 ------------------------------------------------------------------------
 
-## 🧩 When to Use React 19 Features
+##  When to Use React 19 Features
 
-### ✅ Ideal Use Cases
+###  Ideal Use Cases
 
 -   Large applications with heavy data fetching\
 -   Reducing client bundle size\
@@ -130,7 +130,7 @@ Optimization](https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?w=120
 -   Reducing renders in state-heavy components\
 -   Pages that require progressively streamed content
 
-### ❌ Use with Caution
+###  Use with Caution
 
 -   Complex shared state across server boundaries\
 -   Situations where hydration mismatches may occur\
@@ -138,7 +138,7 @@ Optimization](https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?w=120
 
 ------------------------------------------------------------------------
 
-## 🛠️ Migration Tips
+##  Migration Tips
 
 Upgrading to React 19 is smooth if taken step-by-step:
 
@@ -170,7 +170,7 @@ Upgrade feature-by-feature instead of a full rewrite.
 
 ------------------------------------------------------------------------
 
-## 📂 Recommended Project Structure
+##  Recommended Project Structure
 
     app/
     ├── components/
@@ -183,7 +183,7 @@ Upgrade feature-by-feature instead of a full rewrite.
 
 ------------------------------------------------------------------------
 
-## 📣 Conclusion
+##  Conclusion
 
 React 19 is evolutionary yet impactful.\
 It improves **performance**, enhances **data fetching**, and simplifies

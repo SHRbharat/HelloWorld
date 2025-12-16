@@ -6,6 +6,9 @@ import BlogHeroSection from "./BlogHeroSection";
 import EngagementSection from "./EngagementSection";
 import Sidebar from "./Sidebar";
 
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark.css";
+
 function cleanMarkdown(md) {
   if (!md) return "";
 
@@ -16,9 +19,25 @@ function cleanMarkdown(md) {
 }
 
 export default function BlogPostContent({ post }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  //mobile,tablet : false ; pc : true
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(min-width: 1024px)").matches;
+  });
   const [activeId, setActiveId] = useState("");
   const [headings, setHeadings] = useState([]);
+
+  // Handle resize to toggle sidebar
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 1024px)");
+
+    const handleChange = (e) => {
+      setIsSidebarOpen(e.matches);
+    };
+
+    media.addEventListener("change", handleChange);
+    return () => media.removeEventListener("change", handleChange);
+  }, []);
 
   // Extract headings
   useEffect(() => {
@@ -35,29 +54,46 @@ export default function BlogPostContent({ post }) {
     setHeadings(found);
   }, [post.content]);
 
-  // Scroll 
+  // Scroll
   useEffect(() => {
     if (!headings.length) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveId(entry.target.id);
-        });
+        // get all visible headings
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+        if (visible.length > 0) {
+          setActiveId(visible[0].target.id);
+        }
       },
-      { rootMargin: "-100px 0px -66%" }
+      {
+        rootMargin: "-120px 0px -60%",
+        threshold: [0, 1],
+      }
     );
-    headings.forEach((heading) => {
-      const el = document.getElementById(heading.id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
+
+    // delay to ensure markdown is rendered
+    const timeout = setTimeout(() => {
+      headings.forEach(({ id }) => {
+        const el = document.getElementById(id);
+        if (el) observer.observe(el);
+      });
+    }, 0);
+
+    return () => {
+      clearTimeout(timeout);
+      observer.disconnect();
+    };
   }, [headings]);
 
   const scrollToHeading = (id) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
       setActiveId(id);
+      el.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -80,16 +116,19 @@ export default function BlogPostContent({ post }) {
         />
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-12 relative">
+      {/* <div className="flex flex-col lg:flex-row gap-12 relative"> */}
+      <div className="relative flex flex-col lg:flex-row lg:items-start gap-12">
         {/* Main Content */}
-        <div
+        {/* <div
           className={`flex-1 transition-all duration-300 ${
             isSidebarOpen ? "lg:mr-[300px]" : ""
           }`}
-        >
-          <article className="markdown-body prose dark:prose-invert max-w-none p-6 sm:p-8 shadow-sm">
+        > */}
+        <div className="flex-1 min-w-0 transition-all duration-300">
+          <article className="markdown-body prose dark:prose-invert max-w-none p-1 sm:p-8 shadow-sm">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight]}
               components={{
                 h2: ({ children, ...props }) => {
                   const text = React.Children.toArray(children).join(" ");
@@ -100,6 +139,7 @@ export default function BlogPostContent({ post }) {
                     </h2>
                   );
                 },
+                //arrow function style syntax
                 h3: ({ children, ...props }) => {
                   const text = React.Children.toArray(children).join(" ");
                   const id = text.toLowerCase().replace(/\s+/g, "-");
@@ -107,6 +147,25 @@ export default function BlogPostContent({ post }) {
                     <h3 id={id} className="scroll-mt-24" {...props}>
                       {children}
                     </h3>
+                  );
+                },
+                //function syntax styled code block
+                code({ node, className, children, ...props }) {
+                  //checks if inline or block code, <pre> tag is parent of block code in react-markdown
+                  const isBlock = node?.parent?.tagName === "pre";
+                  if (!isBlock) {
+                    return (
+                      <code className="p-0 rounded bg-muted text-sm" {...props}>
+                        {children}
+                      </code>
+                    );
+                  }
+                  return (
+                    // <pre className="rounded-lg overflow-x-auto bg-[#0d1117] p-4 my-4">
+                    <code className={`${className} block text-sm`} {...props}>
+                      {children}
+                    </code>
+                    //</pre>
                   );
                 },
               }}

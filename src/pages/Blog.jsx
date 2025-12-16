@@ -6,18 +6,10 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import blogs from "../lib/blogs";
 
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+// import ReactMarkdown from "react-markdown";
+// import remarkGfm from "remark-gfm";
 
-import rehypePrism from "rehype-prism-plus";
-// import "prismjs/components/prism-javascript";
-// import "prismjs/components/prism-jsx";
-// import "prismjs/components/prism-typescript";
-// import "prismjs/components/prism-tsx";
-// import "prismjs/components/prism-json";
-// import "prismjs/components/prism-markdown";
-// import "prismjs/components/prism-css";
-// import "prismjs/components/prism-bash";
+
 
 export default function Blog() {
   const { id } = useParams(); // blog id from route
@@ -40,12 +32,12 @@ export default function Blog() {
   return (
     <main className="flex-grow pt-8 pb-16">
       <BlogPostContent post={{ ...blogMeta, content }}>
-        <ReactMarkdown
+        {/* <ReactMarkdown
           children={content}
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypePrism]}
           className="markdown-body prose prose-lg dark:prose-invert max-w-none"
-        />
+        /> */}
       </BlogPostContent>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
